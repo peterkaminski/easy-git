@@ -877,6 +877,154 @@ Git context: This is called "pushing" - only the correct files are on the remote
 
 ---
 
+## Workflow 11: Learning Easy Git
+
+**Persona:** New user discovering Easy Git
+
+**Scenario:** User wants to understand what Easy Git can do before using it
+
+### Interaction
+
+```
+User: "tell me about Easy Git"
+
+Easy Git:
+💡 Easy Git makes version control simple
+
+I translate everyday language into git operations - no git knowledge required!
+
+What I can do:
+
+📸 Save snapshots
+• "save my progress" - Create a checkpoint of your work
+• "checkpoint this" - Freeze this version
+
+🔍 Show changes
+• "what changed?" - See what you modified
+• "show my changes" - List your edits
+
+🚫 Check ignored files
+• "what's not being uploaded?" - See excluded files
+• "what's in gitignore" - Show ignored patterns
+
+☁️ Backup to cloud
+• "backup to cloud" - Upload your work to GitHub/GitLab
+• "sync up" - Send changes to server
+
+⬇️ Get updates
+• "get latest" - Download from cloud
+• "sync down" - Get team's changes
+
+🏷️ Label versions
+• "mark this as v1.0" - Name important versions
+• "tag as release" - Create milestone markers
+
+🎬 Start tracking
+• "start version control" - Begin tracking changes
+• "initialize tracking" - Set up version history
+
+Common workflows:
+• Daily backup: "what changed?" → "save my progress" → "backup to cloud"
+• Multi-device: "backup my work" on device 1 → "get latest" on device 2
+
+Want details on a specific operation? Ask: "how do I backup" or "explain saving"
+
+---
+
+User: "how do I backup to the cloud?"
+
+Easy Git:
+💡 Backing up your work to the cloud
+
+What it does:
+Uploads your saved snapshots to a remote server (GitHub, GitLab, etc.) so you can:
+• Access your work from multiple devices
+• Protect against local computer failure
+• Collaborate with others
+
+How to use it:
+1. First, save a snapshot: "save my progress"
+2. Then backup: "backup to cloud"
+3. Easy Git will:
+   • Check if cloud storage is set up (helps you configure if needed)
+   • Upload all your saved snapshots to the server
+   • Confirm what was backed up
+
+Alternative phrases:
+• "backup to cloud"
+• "sync up"
+• "upload my work"
+• "send to backup"
+• "push to cloud"
+
+Git context: This is called "pushing" - it sends your commits to a remote
+repository where they're safely stored and accessible from anywhere.
+
+Common workflow:
+Make changes → "what changed?" → "save my progress" → "backup to cloud"
+
+Important: You must save a snapshot before backing up. The backup sends your
+saved snapshots, not unsaved changes.
+
+Ready to try it? Say: "backup to cloud"
+
+---
+
+User: "what should I do now?"
+
+Easy Git:
+💡 You're not tracking versions yet
+
+Current state: This project doesn't have version control set up.
+
+What you can do now:
+1. "start version control" - Begin tracking your changes
+
+Once initialized, you'll be able to:
+• Save snapshots of your work
+• Go back to earlier versions
+• Backup to the cloud
+
+Want to learn more? Ask: "tell me about Easy Git"
+
+---
+
+User: "start version control"
+
+Easy Git:
+✓ Started tracking your project!
+
+What I did:
+• Initialized version control (git init)
+• Configured git with your name and email
+
+Next steps:
+• Save a snapshot: "save my progress"
+• Check what changed: "what changed?"
+• Backup to cloud: "backup to cloud" (requires GitHub/GitLab setup)
+
+Git context: You now have a hidden .git folder that tracks all your changes.
+
+---
+
+User: "what should I do now?"
+
+Easy Git:
+💡 Ready to save your first snapshot
+
+Current state: Version control is set up, but you haven't saved anything yet.
+
+What you can do now:
+1. "what changed?" - See what files are in your project
+2. "save my progress" - Create your first snapshot
+
+This will start tracking your project history!
+
+Want to learn more about saving? Ask: "how do I save work"
+```
+
+---
+
 ## Common Patterns
 
 ### Pattern 1: Save and Backup (Most Common)

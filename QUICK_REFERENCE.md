@@ -66,6 +66,16 @@ One-page guide to using Easy Git with natural language.
 ```
 → Initializes git repository
 
+### Getting Help
+```
+"tell me about Easy Git"
+"what can Easy Git do"
+"how do I backup"
+"explain saving work"
+"what should I do now"
+```
+→ Get guidance on Easy Git capabilities and next steps
+
 ## Quick Workflows
 
 ### Daily Work
@@ -184,6 +194,7 @@ Options:
 | Download updates | "get latest", "sync down" |
 | Mark important version | "tag this as X", "label version" |
 | Start tracking | "initialize tracking" |
+| Get help | "tell me about Easy Git", "how do I backup", "what should I do now" |
 
 ### By Persona
 

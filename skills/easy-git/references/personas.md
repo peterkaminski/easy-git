@@ -18,6 +18,7 @@ This guide maps natural language phrases to git operations across different user
 | PULL | "get the latest draft", "sync with backup", "download latest version" |
 | TAG | "mark as final", "label this version", "name this draft", "mark as v2" |
 | INIT | "start tracking my work", "begin saving versions" |
+| HELP | "how does this work", "what can this do for me", "explain version tracking", "help me understand backups", "what should I do with my drafts" |
 
 **Characteristics:**
 - Thinks in terms of drafts and final versions
@@ -53,6 +54,7 @@ User: "back up my photos"
 | PULL | "get latest from backup", "restore from cloud", "download safe copy" |
 | TAG | "mark as stable", "label working version", "mark as production" |
 | INIT | "start protecting my files", "begin tracking" |
+| HELP | "help me understand backups", "how do I keep my files safe", "explain version control for my business", "what should I do to protect my work" |
 
 **Characteristics:**
 - Focused on safety and recovery
@@ -88,6 +90,7 @@ User: "backup everything to the cloud"
 | PULL | "get latest content", "sync down", "download updates", "refresh local copy" |
 | TAG | "mark as published", "label as episode-5", "tag as v1.0", "mark as launch" |
 | INIT | "start tracking my content", "begin version control" |
+| HELP | "how do I manage my content versions", "explain the publishing workflow", "help me understand syncing", "what's the best way to track content" |
 
 **Characteristics:**
 - Distinguishes between drafts and published content
@@ -123,6 +126,7 @@ User: "sync my work to the server"
 | PULL | "get latest from backup", "sync from other computer", "download updates" |
 | TAG | "mark working version", "label this config", "tag as working", "save as v1" |
 | INIT | "start tracking changes", "begin saving versions" |
+| HELP | "help me learn version control", "how do I track my experiments", "explain saving progress", "what can I do with this" |
 
 **Characteristics:**
 - Experiments frequently
@@ -158,6 +162,7 @@ User: "label this as working"
 | PULL | "get team updates", "sync with main", "pull latest iteration" |
 | TAG | "mark as sprint-12", "label as release-candidate", "tag as v2.1", "mark milestone" |
 | INIT | "start tracking this project", "begin iteration tracking" |
+| HELP | "explain sprint workflow", "how do I track releases", "help me understand iteration tracking", "what's the best workflow for sprints" |
 
 **Characteristics:**
 - Thinks in terms of sprints and releases
@@ -193,6 +198,7 @@ User: "mark as sprint-12 complete"
 | PULL | "get latest designs", "sync with team", "download design updates" |
 | TAG | "mark as final design", "label exploration-A", "tag as approved", "name this iteration" |
 | INIT | "start tracking designs", "begin versioning prototypes" |
+| HELP | "how do I version designs", "explain design iteration tracking", "help me understand prototype versioning", "what's the best way to track explorations" |
 
 **Characteristics:**
 - Works through multiple iterations rapidly
@@ -273,6 +279,17 @@ Common phrases that work across all personas:
 - "tag this as [X]"
 - "mark as [release/milestone/version] [X]"
 
+### HELP (Get Help)
+- "tell me about Easy Git"
+- "what can Easy Git do"
+- "how does Easy Git work"
+- "explain [Easy Git/version control/tracking]"
+- "help me understand [backups/changes/syncing]"
+- "how do I [backup/save/check changes/etc.]"
+- "what should I do now"
+- "what's next"
+- "what can I do"
+
 ## Intent Recognition Patterns
 
 ### Context Clues
@@ -349,6 +366,12 @@ Use these to verify skill recognizes all persona-specific language:
 - ✓ "save this exploration"
 - ✓ "version this prototype"
 - ✓ "what changed from last iteration"
+
+**Help (all personas):**
+- ✓ "tell me about Easy Git"
+- ✓ "how do I backup"
+- ✓ "what should I do now"
+- ✓ "explain version control"
 
 ## Non-Matches (Should NOT Trigger)
 

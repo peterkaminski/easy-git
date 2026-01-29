@@ -22,6 +22,7 @@ Designed for writers, designers, small business owners, content creators, makers
 - **Plain language explanations** - Understands what you did, explains git concepts simply
 - **Error recovery guidance** - Handles conflicts and errors with helpful, non-technical advice
 - **Learning mode** - Shows git commands after execution so you can learn
+- **Built-in help system** - Context-aware guidance available anytime with "what can I do" or "how do I backup"
 - **First-time friendly** - Guides you through setup if you're new to version control
 - **Privacy by default** - Creates private repositories when setting up cloud backup
 
@@ -34,6 +35,10 @@ Designed for writers, designers, small business owners, content creators, makers
 
 ### Install the Skill
 
+**Note: You might want your technical person to help you with this installation step!**
+
+**After that, Easy Git will make it easier to track versions of your files using plain language.**
+
 1. Clone or download this repository:
    ```bash
    git clone https://github.com/peterkaminski/easy-git.git
@@ -44,7 +49,7 @@ Designed for writers, designers, small business owners, content creators, makers
    ```bash
    # Option 1: Symlink to your Claude plugins directory
    ln -s $(pwd) ~/.claude/plugins/easy-git
-
+   
    # Option 2: Copy to your Claude plugins directory
    cp -r . ~/.claude/plugins/easy-git
    ```
@@ -135,6 +140,48 @@ User: "tag this version"
 ```
 
 Creates a named tag for the current commit.
+
+### Getting Help
+
+Easy Git includes built-in, context-aware help:
+
+#### Ask About Easy Git
+```
+User: "tell me about Easy Git"
+User: "what can Easy Git do"
+User: "how does Easy Git work"
+```
+
+Get an overview of all capabilities with example phrases.
+
+#### Ask About Specific Operations
+```
+User: "how do I backup to cloud"
+User: "explain saving work"
+User: "help me understand changes"
+```
+
+Get detailed guidance on any operation including:
+- What it does
+- How to use it
+- Alternative phrases you can use
+- Common workflows
+- Git context explained simply
+
+#### Ask What to Do Next
+```
+User: "what should I do now"
+User: "what's next"
+User: "what can I do"
+```
+
+Get context-aware suggestions based on your current repo state:
+- Not initialized? Learn how to start tracking
+- No commits? Learn how to save your first snapshot
+- Have changes? See the workflow to save and backup
+- All clean? Know your options for what's next
+
+Help is always available - just ask in plain language!
 
 ### Example Workflows
 

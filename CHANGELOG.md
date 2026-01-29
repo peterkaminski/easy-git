@@ -103,6 +103,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Better balance between protection (frequent saves) and flow (not disruptive)
 - Consistent use of Easy Git natural language internally by Claude Code
 
+## [1.3.0] - 2026-01-29
+
+### Added
+- **Built-in help system (HELP capability)**: Three-tiered help system that provides context-aware guidance
+  - **General help**: "tell me about Easy Git", "what can Easy Git do" - Overview of all capabilities
+  - **Specific help**: "how do I backup", "explain saving work" - Detailed guidance for particular operations
+  - **Contextual help**: "what should I do now" - Suggestions based on current repository state
+- Help trigger phrases added to all 6 user personas (Creative, Business Owner, Content Creator, Maker, Product Manager, Product Designer)
+- Help examples in workflows documentation (Workflow 11: Learning Easy Git)
+- Getting Help sections in user documentation (README.md, QUICK_REFERENCE.md)
+- Intent recognition for HELP vs action disambiguation ("how do I backup" vs "help me backup this")
+
+### Changed
+- Skill now has 8 capabilities (added HELP to existing 7)
+- Updated frontmatter description to include help trigger phrases
+- Enhanced Intent Analysis with HELP mappings
+
+### Improved
+- Discoverability: Users can now learn about Easy Git capabilities without external documentation
+- Onboarding: New users get guided through initialization and first steps
+- Context-awareness: Help system knows repository state and suggests appropriate next actions
+- Self-documenting: Easy Git can explain its own capabilities in plain language
+
 ## [Unreleased]
 
 ### Planned for future releases

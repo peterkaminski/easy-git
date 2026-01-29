@@ -1,7 +1,7 @@
 ---
 name: easy-git
-description: This skill should be used when the user wants to save work ("save snapshot", "checkpoint this", "save my progress", "create savepoint", "capture this moment", "freeze this version", "record changes", "make a snapshot", "checkpoint prototype", "save version"), backup to cloud ("backup to cloud", "sync up", "upload my work", "send to backup", "save to server", "publish my changes", "push to cloud", "backup online"), check changes ("what changed?", "show changes", "what did I do", "show me my work", "what's different", "list changes", "what have I modified", "what is new"), check ignored files ("what files are not tracked?", "what's not being uploaded?", "what is ignored?", "is there anything not being uploaded", "is there anything ignored by version control", "what's in gitignore", "show me ignored files"), get updates ("get latest", "sync down", "download updates", "pull from cloud", "refresh from server", "update from backup", "get changes from cloud"), label versions ("mark this version", "create milestone", "tag this", "bookmark version", "label this version", "name this version", "tag as release"), or start tracking ("start version control", "initialize versioning", "begin tracking changes", "start keeping history", "make this a versioned project"). This skill translates natural language into git operations for non-technical users.
-version: 1.2.0
+description: This skill should be used when the user wants to save work ("save snapshot", "checkpoint this", "save my progress", "create savepoint", "capture this moment", "freeze this version", "record changes", "make a snapshot", "checkpoint prototype", "save version"), backup to cloud ("backup to cloud", "back up to cloud", "back this up", "back up my work", "sync up", "upload my work", "send to backup", "save to server", "publish my changes", "push to cloud", "backup online"), check changes ("what changed?", "show changes", "what did I do", "show me my work", "what's different", "list changes", "what have I modified", "what is new"), check ignored files ("what files are not tracked?", "what's not being uploaded?", "what is ignored?", "is there anything not being uploaded", "is there anything ignored by version control", "what's in gitignore", "show me ignored files"), get updates ("get latest", "sync down", "download updates", "pull from cloud", "refresh from server", "update from backup", "get changes from cloud"), label versions ("mark this version", "create milestone", "tag this", "bookmark version", "label this version", "name this version", "tag as release"), start tracking ("start version control", "initialize versioning", "begin tracking changes", "start keeping history", "make this a versioned project"), or get help ("tell me about Easy Git", "what can Easy Git do", "how does Easy Git work", "help me understand version control", "explain Easy Git", "what should I do now", "how do I backup", "help me with changes", "explain version tracking"). This skill translates natural language into git operations for non-technical users.
+version: 1.3.0
 allowed-tools:
   - Bash(git init*)
   - Bash(git add*)
@@ -521,6 +521,245 @@ This label points to:
 Git context: This is called "tagging" - you can always return to this named version.
 ```
 
+### 7. Get Help (HELP)
+
+Provide self-documentation and guidance about Easy Git capabilities.
+
+**When to use:**
+- "tell me about Easy Git", "what can Easy Git do", "how does Easy Git work"
+- "help me understand version control", "explain Easy Git", "what is Easy Git"
+- "what should I do now", "what can I do", "what's next"
+- Questions: "how do I backup", "how do I save", "how do I check changes"
+
+**Trigger differentiation (critical):**
+- **Questions** ("how do I", "what can", "tell me about", "explain") → HELP
+- **Actions** ("help me backup this project", "save my work") → Execute action (PUSH, COMMIT, etc.)
+- If ambiguous, default to action but acknowledge help is available
+
+**Context gathering (for contextual help):**
+```bash
+# Check repo state
+test -d .git && echo "initialized" || echo "not initialized"
+git status --short 2>/dev/null
+git log -1 --oneline 2>/dev/null || echo "no commits"
+git remote -v 2>/dev/null | grep -q . && echo "has remote" || echo "no remote"
+```
+
+**Workflow:**
+
+1. **Detect help type:**
+   - **General**: About Easy Git overall ("tell me about Easy Git", "what can you do")
+   - **Specific**: About particular capability ("how do I backup", "explain saving")
+   - **Contextual**: "what should I do now", "what's next"
+
+2. **For General help:**
+
+Provide overview of all capabilities with example phrases:
+
+```
+💡 Easy Git makes version control simple
+
+I translate everyday language into git operations - no git knowledge required!
+
+What I can do:
+
+📸 Save snapshots
+• "save my progress" - Create a checkpoint of your work
+• "checkpoint this" - Freeze this version
+
+🔍 Show changes
+• "what changed?" - See what you modified
+• "show my changes" - List your edits
+
+🚫 Check ignored files
+• "what's not being uploaded?" - See excluded files
+• "what's in gitignore" - Show ignored patterns
+
+☁️ Backup to cloud
+• "backup to cloud" - Upload your work to GitHub/GitLab
+• "sync up" - Send changes to server
+
+⬇️ Get updates
+• "get latest" - Download from cloud
+• "sync down" - Get team's changes
+
+🏷️ Label versions
+• "mark this as v1.0" - Name important versions
+• "tag as release" - Create milestone markers
+
+🎬 Start tracking
+• "start version control" - Begin tracking changes
+• "initialize tracking" - Set up version history
+
+Common workflows:
+• Daily backup: "what changed?" → "save my progress" → "backup to cloud"
+• Multi-device: "backup my work" on device 1 → "get latest" on device 2
+
+Want details on a specific operation? Ask: "how do I backup" or "explain saving"
+```
+
+3. **For Specific help:**
+
+Map user query to capability and provide detailed guidance:
+
+**Capability mapping from query:**
+- "backup/cloud/upload/sync up/push" → Explain PUSH
+- "save/snapshot/checkpoint/commit" → Explain COMMIT
+- "changes/status/what changed/modified" → Explain STATUS
+- "ignored/not tracked/not uploaded/gitignore" → Explain STATUS-IGNORED
+- "get/download/sync down/pull/latest" → Explain PULL
+- "label/tag/mark/milestone/version" → Explain TAG
+- "start/initialize/begin/tracking" → Explain INIT
+
+**For COMMIT (example template):**
+```
+💡 Saving your work with Easy Git
+
+What it does:
+Saves a snapshot (checkpoint) of your current work that you can return to later.
+
+How to use it:
+1. Make changes to your files
+2. Say: "save my progress" (or "checkpoint this", "save a snapshot")
+3. Easy Git will:
+   • Look at all your changes
+   • Create a descriptive commit message automatically
+   • Save the snapshot to your local history
+
+Alternative phrases:
+• "save my progress"
+• "checkpoint this"
+• "save a snapshot"
+• "create a savepoint"
+• "freeze this version"
+• "record my changes"
+
+Git context: This is called "committing" - it creates a permanent record in your
+project history that you can always come back to.
+
+Common workflow:
+"what changed?" → see your edits → "save my progress" → snapshot saved
+
+Ready to try it? Say: "save my progress"
+```
+
+**Adapt template for each capability** with appropriate phrases and workflows.
+
+4. **For Contextual help:**
+
+Check repo state and suggest next logical steps:
+
+**If not initialized:**
+```
+💡 You're not tracking versions yet
+
+Current state: This project doesn't have version control set up.
+
+What you can do now:
+1. "start version control" - Begin tracking your changes
+
+Once initialized, you'll be able to:
+• Save snapshots of your work
+• Go back to earlier versions
+• Backup to the cloud
+
+Want to learn more? Ask: "tell me about Easy Git"
+```
+
+**If initialized, no commits:**
+```
+💡 Ready to save your first snapshot
+
+Current state: Version control is set up, but you haven't saved anything yet.
+
+What you can do now:
+1. "what changed?" - See what files are in your project
+2. "save my progress" - Create your first snapshot
+
+This will start tracking your project history!
+
+Want to learn more about saving? Ask: "how do I save work"
+```
+
+**If has commits, has changes:**
+```
+💡 You have unsaved work
+
+Current state:
+• Version control: Active
+• Uncommitted changes: Yes
+• Last snapshot: [commit message]
+
+Suggested next steps:
+1. "what changed?" - Review your modifications
+2. "save my progress" - Save these changes
+3. "backup to cloud" - Upload to GitHub/GitLab (if configured)
+
+Common workflow: check → save → backup
+
+Want help with a specific step? Just ask!
+```
+
+**If has commits, clean, no remote:**
+```
+💡 Your work is saved locally
+
+Current state:
+• Version control: Active
+• Uncommitted changes: None
+• Last snapshot: [commit message]
+• Cloud backup: Not configured
+
+Suggested next steps:
+1. Make changes to your files, then "save my progress"
+2. Set up cloud backup: "backup to cloud" (I'll guide you through it)
+
+Your work is safe locally. Cloud backup provides extra protection and enables
+working from multiple devices.
+
+Want to set up cloud backup? Ask: "how do I backup to cloud"
+```
+
+**If has commits, clean, has remote:**
+```
+💡 Everything is saved and backed up
+
+Current state:
+• Version control: Active
+• Uncommitted changes: None
+• Last snapshot: [commit message]
+• Cloud backup: Configured ✓
+
+You're all set! Next steps:
+1. Make changes to your files
+2. "what changed?" - See your modifications
+3. "save my progress" - Save snapshot
+4. "backup to cloud" - Upload to server
+
+You can also:
+• "get latest" - Download updates from cloud
+• "mark this as [version]" - Label important versions
+• "show my history" - See past snapshots
+
+Want help with anything? Just ask!
+```
+
+**Error states:**
+
+If help requested during error (merge conflict, auth error, etc.):
+- Acknowledge the current issue
+- Provide specific help for that error
+- Reference general help for other operations
+
+**Output format:**
+
+All help modes follow Easy Git standards:
+- Status indicator: 💡 (info)
+- Plain language explanation
+- Actionable examples with specific phrases
+- "Try this" or "Want more" suggestions
+- Brief git context where helpful (not overwhelming)
+
 ## Intent Analysis
 
 Use natural language understanding to map user phrases to operations. Don't rely on exact phrase matching - understand the intent.
@@ -533,6 +772,14 @@ Use natural language understanding to map user phrases to operations. Don't rely
 - **Get/download/sync down/update from/pull/refresh** → PULL
 - **Mark/label/milestone/tag/bookmark/name version** → TAG
 - **Start/initialize/begin tracking/version control** → INIT
+- **Tell me about/what can/how do I/explain/help understand** → HELP
+  - "tell me about Easy Git" → HELP (general)
+  - "what can Easy Git do" → HELP (general)
+  - "how does Easy Git work" → HELP (general)
+  - "how do I backup" → HELP (specific: PUSH)
+  - "explain saving" → HELP (specific: COMMIT)
+  - "what should I do now" → HELP (contextual)
+  - "help me backup this project" → PUSH (action, not help)
 
 **Context clues:**
 - "to cloud", "to server", "online" → suggests PUSH
