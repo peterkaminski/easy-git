@@ -18,10 +18,12 @@ Designed for writers, designers, small business owners, content creators, makers
 
 - **Natural language interface** - Use everyday phrases instead of git commands
 - **Auto-generated commit messages** - Analyzes your changes to create descriptive messages
+- **Smart .gitignore handling** - Automatically detects and offers to exclude common development files
 - **Plain language explanations** - Understands what you did, explains git concepts simply
 - **Error recovery guidance** - Handles conflicts and errors with helpful, non-technical advice
 - **Learning mode** - Shows git commands after execution so you can learn
 - **First-time friendly** - Guides you through setup if you're new to version control
+- **Privacy by default** - Creates private repositories when setting up cloud backup
 
 ## Installation
 
@@ -97,6 +99,15 @@ User: "what did I do?"
 ```
 
 Shows modified, new, and deleted files in plain language.
+
+#### Check Ignored Files
+```
+User: "what files are not tracked?"
+User: "what's not being uploaded?"
+User: "is there anything ignored by version control?"
+```
+
+Shows what files/directories are in .gitignore and being excluded from backups.
 
 #### Backup to Cloud
 ```

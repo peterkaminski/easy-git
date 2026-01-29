@@ -22,6 +22,15 @@ One-page guide to using Easy Git with natural language.
 ```
 → Shows modified, new, and deleted files
 
+### Check Ignored Files
+```
+"what files are not tracked?"
+"what's not being uploaded?"
+"is there anything ignored by version control?"
+"what's in gitignore"
+```
+→ Shows files/directories excluded from version control
+
 ### Backup to Cloud
 ```
 "backup to cloud"
@@ -170,6 +179,7 @@ Options:
 |-------------|---------|
 | Save my work | "save snapshot", "checkpoint this" |
 | See changes | "what changed?", "show changes" |
+| Check ignored files | "what's not being uploaded?", "show ignored files" |
 | Upload/backup | "backup to cloud", "sync up" |
 | Download updates | "get latest", "sync down" |
 | Mark important version | "tag this as X", "label version" |

@@ -1,6 +1,6 @@
 ---
 name: easy-git
-description: This skill should be used when the user wants to save work ("save snapshot", "checkpoint this", "save my progress", "create savepoint", "capture this moment", "freeze this version", "record changes", "make a snapshot", "checkpoint prototype", "save version"), backup to cloud ("backup to cloud", "sync up", "upload my work", "send to backup", "save to server", "publish my changes", "push to cloud", "backup online"), check changes ("what changed?", "show changes", "what did I do", "show me my work", "what's different", "list changes", "what have I modified", "what is new"), get updates ("get latest", "sync down", "download updates", "pull from cloud", "refresh from server", "update from backup", "get changes from cloud"), label versions ("mark this version", "create milestone", "tag this", "bookmark version", "label this version", "name this version", "tag as release"), or start tracking ("start version control", "initialize versioning", "begin tracking changes", "start keeping history", "make this a versioned project"). This skill translates natural language into git operations for non-technical users.
+description: This skill should be used when the user wants to save work ("save snapshot", "checkpoint this", "save my progress", "create savepoint", "capture this moment", "freeze this version", "record changes", "make a snapshot", "checkpoint prototype", "save version"), backup to cloud ("backup to cloud", "sync up", "upload my work", "send to backup", "save to server", "publish my changes", "push to cloud", "backup online"), check changes ("what changed?", "show changes", "what did I do", "show me my work", "what's different", "list changes", "what have I modified", "what is new"), check ignored files ("what files are not tracked?", "what's not being uploaded?", "what is ignored?", "is there anything not being uploaded", "is there anything ignored by version control", "what's in gitignore", "show me ignored files"), get updates ("get latest", "sync down", "download updates", "pull from cloud", "refresh from server", "update from backup", "get changes from cloud"), label versions ("mark this version", "create milestone", "tag this", "bookmark version", "label this version", "name this version", "tag as release"), or start tracking ("start version control", "initialize versioning", "begin tracking changes", "start keeping history", "make this a versioned project"). This skill translates natural language into git operations for non-technical users.
 version: 1.0.0
 allowed-tools:
   - Bash(git init*)
@@ -15,8 +15,12 @@ allowed-tools:
   - Bash(git remote*)
   - Bash(git branch*)
   - Bash(git config*)
+  - Bash(gh*)
   - Bash(test*)
+  - Bash(cat*)
   - Read
+  - Write
+  - Edit
 ---
 
 # Easy Git - Natural Language Git Operations
@@ -32,6 +36,33 @@ Invoke when the user uses natural, non-technical language to describe version co
 - Checkpoints, milestones, progress markers
 
 See trigger phrases in frontmatter description for full list.
+
+## General Principles
+
+### Suggest Easy Git Commands
+
+When Claude Code needs to suggest git operations to users, **always suggest Easy Git natural language commands instead of bare git commands**, unless there is no Easy Git equivalent for the operation.
+
+**Examples:**
+- ✓ "Try: 'save my progress'" (Easy Git)
+- ✗ "Try: git commit -am 'message'" (bare git)
+
+- ✓ "Say: 'backup to cloud'" (Easy Git)
+- ✗ "Run: git push origin main" (bare git)
+
+- ✓ "To see changes: 'what changed?'" (Easy Git)
+- ✗ "Run: git status" (bare git)
+
+**When to use bare git commands:**
+- For advanced operations not covered by Easy Git (e.g., git rebase, git cherry-pick)
+- When the user explicitly asks for the git command syntax
+- In the "What I did" section after execution (showing what commands were run)
+
+### Default to Private Repositories
+
+When using `gh` CLI to create repositories, **always default to private repositories** unless the user explicitly requests public.
+
+Use: `gh repo create --private` instead of `gh repo create --public`
 
 ## Core Capabilities
 
@@ -92,21 +123,45 @@ git log --oneline -5
 
 **Workflow:**
 1. Gather context about what changed
-2. Analyze file changes to understand the work:
+2. Check for dot files/directories that should be ignored:
+   - Look for `.claude`, `.obsidian`, `.vscode`, `.idea`, `.cursor`, etc.
+   - Check if these are in the staging area or untracked
+   - If found and not already in .gitignore, offer to ignore them:
+     ```
+     💡 I noticed some development tool files that are usually not uploaded:
+     • .claude/ (Claude Code configuration)
+     • .obsidian/ (Obsidian vault settings)
+
+     Would you like me to exclude these from version control?
+     Say "yes, ignore those" or "no, track everything"
+     ```
+   - If user agrees, create or update .gitignore before committing
+3. Analyze file changes to understand the work:
    - What files were added/modified/deleted
    - Nature of changes (docs, code, config, assets)
    - Look for patterns (feature, fix, update, refactor)
-3. Generate descriptive commit message:
+4. Generate descriptive commit message:
    - Summarize what changed concisely
    - Focus on what/why, not how
    - Use present tense
    - Example: "Update documentation and add examples"
-4. Execute:
+5. Execute:
    ```bash
    git add -A
    git commit -m "generated message"
    ```
-5. Display result in plain language + git commands
+6. Display result in plain language + git commands
+
+**Common dot files/directories to suggest ignoring:**
+- `.claude/` - Claude Code configuration
+- `.obsidian/` - Obsidian vault settings
+- `.vscode/` - VS Code settings
+- `.idea/` - JetBrains IDE settings
+- `.cursor/` - Cursor editor settings
+- `.DS_Store` - macOS filesystem metadata
+- `node_modules/` - Node.js dependencies
+- `.env` - Environment variables (sensitive!)
+- `.env.local` - Local environment overrides
 
 **Output format:**
 ```
@@ -163,6 +218,70 @@ Summary: 2 files modified, 1 file added
 Git context: These are "uncommitted changes" - save a snapshot to preserve them.
 ```
 
+#### 3a. Check Ignored Files (STATUS - IGNORED)
+
+Show what files/directories are being excluded from version control.
+
+**When to use:**
+- "what files are not tracked?", "what's not being uploaded?", "what is ignored?"
+- "is there anything not being uploaded", "is there anything ignored by version control"
+- "what's in gitignore", "show me ignored files"
+
+**Context gathering:**
+```bash
+# Check if .gitignore exists
+test -f .gitignore && cat .gitignore || echo "No .gitignore file"
+
+# Show currently ignored files that exist
+git status --ignored --short
+```
+
+**Workflow:**
+1. Check if .gitignore exists
+2. If exists:
+   - Read .gitignore patterns
+   - List currently ignored files that exist in the working directory
+   - Explain what each pattern means in plain language
+3. If doesn't exist:
+   - Explain that nothing is being ignored
+   - Offer to create .gitignore if needed
+
+**Output format (with .gitignore):**
+```
+Here's what's not being uploaded to version control:
+
+Ignored patterns:
+• .claude/ - Claude Code configuration files
+• .obsidian/ - Obsidian vault settings
+• .DS_Store - macOS system files
+• node_modules/ - Node.js dependencies
+
+Currently ignored files in your project:
+• .claude/settings.local.json
+• .obsidian/workspace.json
+• .DS_Store
+
+Git context: These files are listed in .gitignore and won't be included when
+you save snapshots or backup to the cloud.
+```
+
+**Output format (no .gitignore):**
+```
+💡 No files are being ignored
+
+You don't have a .gitignore file, so all files in this directory will be
+tracked when you save snapshots.
+
+Would you like to create one to exclude common files like:
+• Development tool settings (.vscode, .idea, .claude)
+• System files (.DS_Store)
+• Dependencies (node_modules)
+
+Say "yes, create gitignore" if you'd like me to set this up.
+
+Git context: A .gitignore file tells git which files to never track or upload.
+```
+
 ### 4. Backup to Cloud (PUSH)
 
 Upload local snapshots to remote repository.
@@ -183,6 +302,7 @@ git status
 1. Check if remote exists:
    - If no remote: Guide through GitHub/GitLab setup
    - Explain what a remote is in plain language
+   - **When using gh CLI, default to private**: `gh repo create --private`
 2. Check for uncommitted changes:
    - If uncommitted: Ask if they want to save snapshot first
 3. Check tracking branch:
@@ -334,6 +454,7 @@ Use natural language understanding to map user phrases to operations. Don't rely
 - **Saving/snapshot/checkpoint/progress/record/capture/freeze** → COMMIT
 - **Backup/sync up/upload/publish/send to server/push** → PUSH
 - **Changes/different/modified/what did I do/show work** → STATUS
+- **Not tracked/ignored/not uploaded/gitignore/excluded** → STATUS-IGNORED
 - **Get/download/sync down/update from/pull/refresh** → PULL
 - **Mark/label/milestone/tag/bookmark/name version** → TAG
 - **Start/initialize/begin tracking/version control** → INIT
@@ -342,6 +463,7 @@ Use natural language understanding to map user phrases to operations. Don't rely
 - "to cloud", "to server", "online" → suggests PUSH
 - "from cloud", "from server", "latest" → suggests PULL
 - "what", "show", "list" → suggests STATUS
+- "not tracked", "ignored", "not uploaded", "gitignore" → suggests STATUS-IGNORED
 - "this version", "this as", "[name]" → suggests TAG
 
 ## Error Handling Strategies
@@ -367,6 +489,8 @@ To backup to the cloud, you need to:
 2. Connect it to this project
 
 Would you like help setting this up? Say "set up cloud backup" and I'll guide you.
+
+Note: If using gh CLI, repositories will be created as private by default.
 ```
 
 ### Uncommitted changes (when pulling)
