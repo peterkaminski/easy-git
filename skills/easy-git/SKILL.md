@@ -1,7 +1,7 @@
 ---
 name: easy-git
 description: This skill should be used when the user wants to save work ("save snapshot", "checkpoint this", "save my progress", "create savepoint", "capture this moment", "freeze this version", "record changes", "make a snapshot", "checkpoint prototype", "save version"), backup to cloud ("backup to cloud", "sync up", "upload my work", "send to backup", "save to server", "publish my changes", "push to cloud", "backup online"), check changes ("what changed?", "show changes", "what did I do", "show me my work", "what's different", "list changes", "what have I modified", "what is new"), check ignored files ("what files are not tracked?", "what's not being uploaded?", "what is ignored?", "is there anything not being uploaded", "is there anything ignored by version control", "what's in gitignore", "show me ignored files"), get updates ("get latest", "sync down", "download updates", "pull from cloud", "refresh from server", "update from backup", "get changes from cloud"), label versions ("mark this version", "create milestone", "tag this", "bookmark version", "label this version", "name this version", "tag as release"), or start tracking ("start version control", "initialize versioning", "begin tracking changes", "start keeping history", "make this a versioned project"). This skill translates natural language into git operations for non-technical users.
-version: 1.0.0
+version: 1.2.0
 allowed-tools:
   - Bash(git init*)
   - Bash(git add*)
@@ -63,6 +63,81 @@ When Claude Code needs to suggest git operations to users, **always suggest Easy
 When using `gh` CLI to create repositories, **always default to private repositories** unless the user explicitly requests public.
 
 Use: `gh repo create --private` instead of `gh repo create --public`
+
+## Agent Workflow Guidelines
+
+### When Claude Code Should Proactively Commit
+
+When Claude Code is working on behalf of the user, it should proactively use Easy Git commands to save work without user prompting. This ensures user work is always protected.
+
+**IMPORTANT**: These are suggested minimums, not maximums. Always feel free to commit whenever you think it's appropriate. Better to commit too often than too rarely - commits are cheap and ensure work safety.
+
+**Context-based triggers to commit:**
+
+1. **After completing discrete tasks**
+   - Finished implementing a feature the user requested
+   - Fixed a bug and verified the fix
+   - Completed refactoring a component
+   - Action: Use "save my progress" or "checkpoint this"
+
+2. **Before risky operations**
+   - Before trying experimental approaches
+   - Before making significant architectural changes
+   - Before running destructive operations
+   - Action: Use "save a checkpoint" as safety measure
+
+3. **After writing significant code**
+   - Added/modified 3+ files in a logical unit
+   - Completed a meaningful subtask within larger work
+   - Reached a working state after debugging
+   - Action: Use "save snapshot"
+
+4. **At natural stopping points**
+   - User asks to see current state ("show me", "what changed")
+   - Before switching to different part of codebase
+   - After resolving errors/conflicts
+   - Action: Use "checkpoint this"
+
+5. **When explicitly requested**
+   - User says: "commit this", "save this"
+   - Use Easy Git phrases, not bare git commands
+   - Action: Use "save my progress"
+
+**Frequency guidance**: Commit frequently at logical checkpoints (every 1-3 meaningful changes). Err on the side of more commits rather than fewer.
+
+### When Claude Code Should Proactively Push
+
+Claude Code should backup work to cloud at appropriate intervals to ensure safety.
+
+**Context-based triggers to push:**
+
+1. **After accumulating commits**
+   - 5+ commits since last push (suggested minimum)
+   - Safety: Ensure work is backed up regularly
+   - Action: Use "backup to cloud"
+
+2. **At natural stopping points**
+   - User says: "that's all", "thanks", "I'm done for now"
+   - End of a work session or major task completion
+   - Before user likely leaves or switches context
+   - Action: Use "backup to cloud"
+
+3. **After significant milestones**
+   - Completed major feature or bug fix
+   - User created a tag/version marker
+   - Reached a stable, working state
+   - Action: Use "backup to cloud"
+
+4. **When explicitly requested**
+   - User asks to push: "push this", "upload", "backup"
+   - Use Easy Git phrases
+   - Action: Use "backup to cloud"
+
+**Frequency guidance**: Push regularly (after 5+ commits or at session end). Push sooner if it makes sense (e.g., after completing major milestone). Balance safety with not being disruptive.
+
+### Core Principle
+
+Claude Code should use Easy Git natural language commands internally, never bare git commands, to maintain consistency with the skill's design. This protects user work without requiring them to remember to save.
 
 ## Core Capabilities
 

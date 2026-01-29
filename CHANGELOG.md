@@ -83,9 +83,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Proactive protection of development tool configurations
 - More comprehensive file tracking visibility
 
+## [1.2.0] - 2026-01-29
+
+### Added
+- **Agent Workflow Guidelines**: Claude Code now knows when to proactively commit and push during work sessions
+  - Commit triggers: After completing tasks, before risky changes, after significant code, at natural stopping points
+  - Push triggers: After 5+ commits, at session end, after milestones
+  - Context-based behavior (no time-based reminders)
+  - Guidelines emphasize these are suggested minimums - commit/push more often if appropriate
+- New section in SKILL.md: "Agent Workflow Guidelines" with detailed commit/push patterns
+- New section in CLAUDE.md: "Agent Workflow Patterns" summarizing agent behavior
+
+### Changed
+- Claude Code now uses Easy Git commands proactively to protect user work during sessions
+- Agent behavior focuses on safety: frequent commits at logical checkpoints, regular pushes after accumulating commits
+
+### Improved
+- Work safety: Claude Code ensures user progress is checkpointed and backed up without user needing to remember
+- Better balance between protection (frequent saves) and flow (not disruptive)
+- Consistent use of Easy Git natural language internally by Claude Code
+
 ## [Unreleased]
 
-### Planned for v1.2
+### Planned for future releases
 - Enhanced commit message generation with more context
 - Additional language patterns based on user feedback
 - Improved conflict resolution strategies

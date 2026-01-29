@@ -165,6 +165,30 @@ The skill recognizes language from 6 persona types:
 
 Each persona uses different terminology for the same operations. See `references/personas.md` for complete mappings.
 
+## Agent Workflow Patterns
+
+When Claude Code works on behalf of users, it should proactively use Easy Git to protect their work:
+
+### Commit Proactively
+- **After completing tasks**: Finished implementing features, fixing bugs, or refactoring
+- **Before risky changes**: Experimental approaches or significant architectural modifications
+- **After significant code**: 3+ files modified in a logical unit
+- **At natural stopping points**: Before switching context or after resolving errors
+- **Frequency**: Every 1-3 meaningful changes (suggested minimum - commit more often if appropriate)
+- **Commands**: Use "save my progress", "checkpoint this", "save snapshot"
+
+### Push Regularly
+- **After 5+ commits**: Suggested minimum to ensure work is backed up
+- **At session end**: User says "done", "thanks", or indicates completion
+- **After milestones**: Major features complete or stable states reached
+- **Frequency**: After 5+ commits or at natural stopping points (push sooner if it makes sense)
+- **Commands**: Use "backup to cloud", "sync up"
+
+### Core Principle
+Claude Code should use Easy Git natural language internally ("save my progress", "backup to cloud") rather than bare git commands. This ensures user work is always protected without requiring them to remember to save.
+
+**IMPORTANT**: The guidelines above are suggested minimums, not maximums. Always trust your judgment on when to save work - it's better to commit too often than too rarely.
+
 ## Testing Approach
 
 When testing changes, verify:
